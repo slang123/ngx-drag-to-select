@@ -3,13 +3,13 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import { DEFAULT_CONFIG } from './config';
 import { KeyboardEventsService } from './keyboard-events.service';
 import { DragToSelectConfig } from './models';
-import { SelectContainerComponent } from './select-container.component';
+import { SelectContainerDirective } from './select-container.directive';
 import { SelectItemDirective } from './select-item.directive';
 import { ShortcutService } from './shortcut.service';
 import { CONFIG, USER_CONFIG } from './tokens';
 import { mergeDeep } from './utils';
 
-const COMPONENTS = [SelectContainerComponent, SelectItemDirective];
+const COMPONENTS = [SelectContainerDirective, SelectItemDirective];
 
 function configFactory(config: Partial<DragToSelectConfig>) {
   return mergeDeep(DEFAULT_CONFIG, config);

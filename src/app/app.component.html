@@ -38,9 +38,10 @@
     </div>
 
     <div class="drag-area">
-      <dts-select-container
+      <div
         data-cy="select-container"
-        #selectContainer="dts-select-container"
+        #selectContainer="dtsSelectContainer"
+        dtsSelectContainer
         [selectMode]="selectMode"
         [(selectedItems)]="selectedDocuments"
         [disabled]="disable"
@@ -58,7 +59,7 @@
             {{ document.name }}
           </mat-grid-tile>
         </mat-grid-list>
-      </dts-select-container>
+      </div>
     </div>
 
     <div class="meta">
