@@ -2,7 +2,7 @@ import { Component, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DragToSelectModule } from './drag-to-select.module';
-import { SelectContainerComponent } from './select-container.component';
+import { SelectContainerDirective } from './select-container.directive';
 import { SelectItemDirective } from './select-item.directive';
 import { BehaviorSubject } from 'rxjs';
 
@@ -23,21 +23,22 @@ interface SelectItemValue {
 
 @Component({
   template: `
-    <dts-select-container
+    <div
+      dtsSelectContainer
       [(selectedItems)]="selectedItems"
       (itemSelected)="itemSelected($event)"
       (itemDeselected)="itemDeselected($event)"
-      #selectContainer
+      #selectContainer="dtsSelectContainer"
     >
       <ng-container *ngIf="data$ | async as data">
         <span *ngFor="let item of data" [dtsSelectItem]="item" #selectItem="dtsSelectItem">Item #{{ item.id }}</span>
       </ng-container>
-    </dts-select-container>
+    </div>
   `,
 })
 class TestComponent {
   @ViewChild('selectContainer', { static: true })
-  selectContainer: SelectContainerComponent;
+  selectContainer: SelectContainerDirective;
 
   @ViewChildren('selectItem')
   selectItems: QueryList<SelectItemDirective>;
@@ -54,10 +55,10 @@ class TestComponent {
   }
 }
 
-describe('SelectContainerComponent', () => {
+describe('SelectContainerDirective', () => {
   let fixture: ComponentFixture<TestComponent>;
   let testComponent: TestComponent;
-  let selectContainerInstance: SelectContainerComponent;
+  let selectContainerInstance: SelectContainerDirective;
 
   beforeEach(
     waitForAsync(() => {
@@ -77,19 +78,19 @@ describe('SelectContainerComponent', () => {
   });
 
   it('should not throw when clicking the element immediately on creation', () => {
-    const selectContainer = fixture.debugElement.query(By.directive(SelectContainerComponent));
+    const selectContainer = fixture.debugElement.query(By.directive(SelectContainerDirective));
     expect(() => triggerDomEvent('mousedown', selectContainer.nativeElement)).not.toThrowError();
   });
 
   it('should expose update as part of the public api', () => {
-    const selectContainer = fixture.debugElement.query(By.directive(SelectContainerComponent));
+    const selectContainer = fixture.debugElement.query(By.directive(SelectContainerDirective));
 
-    jest.spyOn(selectContainer.componentInstance, '_calculateBoundingClientRect');
+    jest.spyOn(selectContainer.directiveInstance, '_calculateBoundingClientRect');
     jest.spyOn(fixture.componentInstance.selectItems.first, 'calculateBoundingClientRect');
 
-    selectContainer.componentInstance.update();
+    selectContainer.directiveInstance.update();
 
-    expect(selectContainer.componentInstance._calculateBoundingClientRect).toHaveBeenCalled();
+    expect(selectContainer.directiveInstance._calculateBoundingClientRect).toHaveBeenCalled();
     expect(fixture.componentInstance.selectItems.first.calculateBoundingClientRect).toHaveBeenCalled();
   });
 
@@ -255,4 +256,4 @@ describe('SelectContainerComponent', () => {
       expect(testComponent.itemDeselected).toHaveBeenCalledWith({ id: 2 });
     });
   });
-});
+}
