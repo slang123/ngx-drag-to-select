@@ -2,7 +2,7 @@ import { Component, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DragToSelectModule } from './drag-to-select.module';
-import { SelectContainerComponent } from './select-container.component';
+import { SelectContainerComponent } from './select-container.directive';
 import { SelectItemDirective } from './select-item.directive';
 import { BehaviorSubject } from 'rxjs';
 

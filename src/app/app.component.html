@@ -31,16 +31,15 @@
     <mat-checkbox data-cy="selectWithShortcut" [(ngModel)]="selectWithShortcut">Select with Shortcut</mat-checkbox>
 
     <div class="action-buttons">
-      <button data-cy="selectAll" mat-raised-button (click)="selectContainer.selectAll()">Select All</button>
-      <button data-cy="clearSelection" mat-raised-button (click)="selectContainer.clearSelection()">
+      <button data-cy="selectAll" mat-raised-button (click)="selectAll()">Select All</button>
+      <button data-cy="clearSelection" mat-raised-button (click)="clearSelection()">
         Clear Selection
       </button>
     </div>
 
     <div class="drag-area">
-      <dts-select-container
+      <div dtsSelectContainer
         data-cy="select-container"
-        #selectContainer="dts-select-container"
         [selectMode]="selectMode"
         [(selectedItems)]="selectedDocuments"
         [disabled]="disable"
@@ -58,7 +57,7 @@
             {{ document.name }}
           </mat-grid-tile>
         </mat-grid-list>
-      </dts-select-container>
+      </div>
     </div>
 
     <div class="meta">

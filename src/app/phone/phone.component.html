@@ -2,10 +2,10 @@
   <div class="phone-screen">
     <div class="controls">
       <div @editButtons *ngIf="selectMode">
-        <button data-cy="clearSelection" mat-icon-button (click)="selectContainer.clearSelection()">
+        <button data-cy="clearSelection" mat-icon-button (click)="clearSelection()">
           <mat-icon>clear</mat-icon>
         </button>
-        <button data-cy="selectAll" mat-icon-button (click)="selectContainer.selectAll()">
+        <button data-cy="selectAll" mat-icon-button (click)="selectAll()">
           <mat-icon>select_all</mat-icon>
         </button>
         <button data-cy="delete" mat-icon-button (click)="deleteContacts(selectedContacts)">
@@ -17,7 +17,7 @@
         <mat-icon>add</mat-icon>
       </button>
     </div>
-    <dts-select-container #selectContainer="dts-select-container" [(selectedItems)]="selectedContacts" [disableDrag]="true" [custom]="true"
+    <div dtsSelectContainer [(selectedItems)]="selectedContacts" [disableDrag]="true" [custom]="true"
       [class.select-mode]="selectMode" (select)="toggleSelectMode()" class="content" [selectMode]="selectMode">
       <ul *ngIf="contacts.length; else noContacts">
         <li class="email" *ngFor="let contact of contacts">
@@ -37,7 +37,7 @@
           </div>
         </div>
       </ng-template>
-    </dts-select-container>
+    </div>
     <div class="home-button"></div>
   </div>
 </div>

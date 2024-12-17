@@ -54,4 +54,12 @@ export class AppComponent implements OnInit {
       });
     }
   }
+
+  clearSelection() {
+    this.selectedDocuments = [];
+  }
+
+  selectAll() {
+    this.selectedDocuments = this.documents;
+  }
 }

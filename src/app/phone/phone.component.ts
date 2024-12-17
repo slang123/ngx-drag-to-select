@@ -43,6 +43,13 @@ export class PhoneComponent implements OnInit {
     }
   }
 
+  selectAll() {
+    throw new Error('Method not implemented.');
+  }
+  clearSelection() {
+    throw new Error('Method not implemented.');
+  }
+
   addContact() {
     const contact = this.getRandomContact();
 

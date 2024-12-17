@@ -15,6 +15,11 @@
     "paths": {
       "ngx-drag-to-select": ["dist/ngx-drag-to-select"],
       "ngx-drag-to-select/*": ["dist/ngx-drag-to-select/*"]
-    }
+    },
+  },
+  "angularCompilerOptions": {
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
   }
 }
