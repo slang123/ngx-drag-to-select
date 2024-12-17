@@ -14,6 +14,8 @@ import {
   PLATFORM_ID,
   Inject,
   AfterContentInit,
+  inject,
+  OnInit,
 } from '@angular/core';
 
 import { isPlatformBrowser } from '@angular/common';
@@ -65,17 +67,20 @@ import {
   hasMinimumSize,
 } from './utils';
 import { KeyboardEventsService } from './keyboard-events.service';
+import { SelectContainerService } from './select-container.service';
 
 @Directive({
   selector: '[dtsSelectContainer]',
   exportAs: 'dtsSelectContainer',
 })
-export class SelectContainerDirective implements AfterViewInit, OnDestroy, AfterContentInit {
+export class SelectContainerDirective implements OnInit, AfterViewInit, OnDestroy, AfterContentInit {
+  
+  
   host: SelectContainerHost;
   selectBoxStyles$: Observable<SelectBox<string>>;
   selectBoxClasses$: Observable<{ [key: string]: boolean }>;
 
-  @ContentChildren(SelectItemDirective, { descendants: true })
+  // @ContentChildren(SelectItemDirective, { descendants: true })
   private $selectableItems: QueryList<SelectItemDirective>;
 
   @Input() selectedItems: any;
@@ -122,8 +127,14 @@ export class SelectContainerDirective implements AfterViewInit, OnDestroy, After
     private keyboardEvents: KeyboardEventsService,
     private hostElementRef: ElementRef,
     private renderer: Renderer2,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private dragSelectService: SelectContainerService
   ) {}
+
+  ngOnInit(): void {
+    this.$selectableItems = new QueryList<SelectItemDirective>();
+    this.dragSelectService.setContainer(this);
+  }
 
   ngAfterViewInit() {
     if (isPlatformBrowser(this.platformId)) {
@@ -151,7 +162,6 @@ export class SelectContainerDirective implements AfterViewInit, OnDestroy, After
       );
 
       const mousedown$ = fromEvent<MouseEvent>(this.host, 'mousedown').pipe(
-        tap(() => console.log('mousedown')),
         filter((event) => event.button === 0), // only emit left mouse
         filter(() => !this.disabled),
         filter((event) => this.selectOnClick || event.target === this.host),
@@ -160,7 +170,6 @@ export class SelectContainerDirective implements AfterViewInit, OnDestroy, After
       );
 
       const dragging$ = mousedown$.pipe(
-        tap(() => console.log('mouse drag')),
         filter((event) => !this.shortcuts.disableSelection(event)),
         filter(() => !this.selectMode),
         filter(() => !this.disableDrag),
@@ -275,6 +284,10 @@ export class SelectContainerDirective implements AfterViewInit, OnDestroy, After
 
   ngAfterContentInit() {
     this._selectableItems = this.$selectableItems.toArray();
+  }
+
+  registerItem(item: SelectItemDirective) {
+    this.$selectableItems.reset([...this.$selectableItems.toArray(), item]);
   }
 
   selectAll() {
@@ -474,6 +487,9 @@ export class SelectContainerDirective implements AfterViewInit, OnDestroy, After
         index >= startIndex &&
         index <= endIndex &&
         startIndex !== endIndex;
+
+        // check if item is in ragne
+        console.log(this.$selectableItems);
 
       const shouldAdd =
         (withinBoundingBox &&

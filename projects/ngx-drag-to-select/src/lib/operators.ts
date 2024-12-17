@@ -13,7 +13,6 @@ export const createSelectBox = (container: SelectContainerHost) => {
 
         const width = opacity > 0 ? mousePosition.x - x : 0;
         const height = opacity > 0 ? mousePosition.y - y : 0;
-
         return {
           top: height < 0 ? mousePosition.y : y,
           left: width < 0 ? mousePosition.x : x,

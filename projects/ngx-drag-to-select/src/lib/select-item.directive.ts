@@ -10,11 +10,13 @@ import {
   Renderer2,
   OnInit,
   HostBinding,
+  inject,
 } from '@angular/core';
 
 import { DragToSelectConfig, BoundingBox } from './models';
 import { CONFIG } from './tokens';
 import { calculateBoundingClientRect } from './utils';
+import { SelectContainerService } from './select-container.service';
 
 export const SELECT_ITEM_INSTANCE = Symbol();
 
@@ -47,11 +49,16 @@ export class SelectItemDirective implements OnInit, DoCheck {
     @Inject(CONFIG) private config: DragToSelectConfig,
     @Inject(PLATFORM_ID) private platformId: Record<string, unknown>,
     private host: ElementRef,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private dragSelectService: SelectContainerService
   ) {}
 
   ngOnInit() {
-    this.nativeElememnt[SELECT_ITEM_INSTANCE] = this;
+    // this.nativeElememnt[SELECT_ITEM_INSTANCE] = this;
+    const container = this.dragSelectService.getContainer();
+    if (container) {
+      container.registerItem(this);
+    }
   }
 
   ngDoCheck() {

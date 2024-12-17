@@ -1,6 +1,14 @@
 $primary-color: #0087f7;
 $link-color: #9c27b0;
 
+.drag-area {
+  display: block;
+  position: relative;
+  padding: 2rem;
+  border: 2px dashed $primary-color;
+}
+
+
 h3 {
   color: $primary-color;
   font-weight: bold;
