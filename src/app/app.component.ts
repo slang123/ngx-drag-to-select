@@ -2,6 +2,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer, Title } from '@angular/platform-browser';
+import { SelectContainerService } from 'projects/ngx-drag-to-select/src/lib/select-container.service';
 
 const json = require('../../projects/ngx-drag-to-select/package.json');
 
@@ -13,7 +14,7 @@ const json = require('../../projects/ngx-drag-to-select/package.json');
 export class AppComponent implements OnInit {
   documents: Array<any> = [];
   selectedDocuments: Array<any> = [];
-  selectOnClick = true;
+  selectOnClick = false;
   selectOnDrag = true;
   selectMode = false;
   disable = false;
@@ -27,7 +28,8 @@ export class AppComponent implements OnInit {
     private titleService: Title,
     private breakpointObserver: BreakpointObserver,
     iconRegistry: MatIconRegistry,
-    sanitizer: DomSanitizer
+    sanitizer: DomSanitizer,
+    private selectContainerService: SelectContainerService,
   ) {
     iconRegistry.addSvgIcon('apple', sanitizer.bypassSecurityTrustResourceUrl('assets/apple-icon.svg'));
     iconRegistry.addSvgIcon('windows', sanitizer.bypassSecurityTrustResourceUrl('assets/windows-icon.svg'));
@@ -56,10 +58,10 @@ export class AppComponent implements OnInit {
   }
 
   clearSelection() {
-    this.selectedDocuments = [];
+    this.selectContainerService.getContainer().clearSelection();
   }
 
   selectAll() {
-    this.selectedDocuments = this.documents;
+    this.selectContainerService.getContainer().selectAll();
   }
 }

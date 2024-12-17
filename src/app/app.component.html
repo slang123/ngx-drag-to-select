@@ -54,7 +54,7 @@
               [dtsSelectItem]="document"
               [dtsDisabled]="disableEvenItems && document.disabled"
               *ngFor="let document of documents">
-            {{ document.name }}
+            <app-task [name]="document.name"></app-task>
           </mat-grid-tile>
         </mat-grid-list>
       </div>
